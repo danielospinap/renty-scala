@@ -7,9 +7,9 @@
 # Reference: https://intellij-support.jetbrains.com/hc/en-us/articles/206544839
 
 .idea/
-.target/
-.project/project/
-.project/target/
+target/
+project/project/
+project/target/
 
 # User-specific stuff
 .idea/**/workspace.xml

@@ -1,8 +1,8 @@
 package models
 
+import com.mongodb.util.JSON
 import io.circe.syntax._
 import io.circe._
-
 import org.bson.types.ObjectId
 
 case class FindByIdRequest(id: String) {
@@ -22,7 +22,9 @@ case class Car(_id: ObjectId,
                doors: Int,
                color: String,
                kms: Int,
-               pictures: List[String]
+               pictures: List[String],
+               rents: List[String]
+
               ) {
   require(brand != null, "Brand not informed")
   require(thumbnail != null, "Thumbnail not informed")
@@ -53,6 +55,7 @@ case class Car(_id: ObjectId,
 }
 
 object Car {
+  //Datos que devuelve para el get
   implicit val encoder: Encoder[Car] = (myCar: Car) => {
     Json.obj(
 
@@ -74,6 +77,7 @@ object Car {
     )
   }
 
+  //Datos que recibe en el post
   implicit val decoder: Decoder[Car] = (c: HCursor) => {
     for {
       brand <- c.downField("brand").as[String]
@@ -89,6 +93,7 @@ object Car {
       color <- c.downField("color").as[String]
       kms <- c.downField("kms").as[Int]
       pictures <- c.downField("pictures").as[List[String]]
+      rents <- c.downField("rents").as[List[String]]
     } yield Car(ObjectId.get(),
                 brand,
                 thumbnail,
@@ -102,7 +107,8 @@ object Car {
                 doors,
                 color,
                 kms,
-                pictures
+                pictures,
+                rents
     )
   }
 }

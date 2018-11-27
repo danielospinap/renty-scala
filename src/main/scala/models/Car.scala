@@ -1,7 +1,9 @@
 package models
 
+import org.bson.types.ObjectId
+
 case class Car(
-                id: String,
+                _id: ObjectId,
                 brand: String,
                 thumbnail: String,
                 price: String,

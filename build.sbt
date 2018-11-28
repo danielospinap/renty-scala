@@ -1,5 +1,9 @@
 enablePlugins(JavaAppPackaging)
+<<<<<<< HEAD
 name := "renty-scala-feature-SearchChanges"
+=======
+name := "Renty"
+>>>>>>> db944ad9fc75bee87f7ca897f568dbcc9f381a86
 
 version := "0.1"
 

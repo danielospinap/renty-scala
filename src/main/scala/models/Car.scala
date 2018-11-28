@@ -8,6 +8,20 @@ import org.bson.types.ObjectId
 case class FindByIdRequest(id: String) {
   require(ObjectId.isValid(id), "the informed id is not a representation of a valid hex string")
 }
+<<<<<<< HEAD
+=======
+
+case class FindByIdRequestt(id: String) {
+  require(ObjectId.isValid(id), "the informed id is not a representation of a valid hex string")
+}
+
+//agregado gilbert
+case class Search() {
+  
+}
+
+
+>>>>>>> db944ad9fc75bee87f7ca897f568dbcc9f381a86
 //TODO: Add rental
 case class Car(_id: ObjectId,
                brand: String,

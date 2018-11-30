@@ -18,5 +18,5 @@ object Mongo {
   lazy val databaseUser: MongoDatabase = mongoClient.getDatabase(System.getenv("DB_NAME")).withCodecRegistry(codecRegistryUser)
 
   lazy val carCollection: MongoCollection[Car] = database.getCollection[Car]("cars")
-  lazy val carCollectionUsers: MongoCollection[Car] = databaseUser.getCollection[Car]("users")
+  lazy val userCollection: MongoCollection[User] = databaseUser.getCollection[User]("users")
 }

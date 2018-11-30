@@ -29,7 +29,9 @@ libraryDependencies ++= Seq(
   "org.pegdown" % "pegdown" % "1.6.0" % "test",
   "com.typesafe.akka" %% "akka-http-testkit" % akkaHttp % "test",
   "org.mongodb" % "mongo-java-driver" % "3.4.2",
-  "com.github.fakemongo" % "fongo" % "2.1.0" % "test"
+  "com.github.fakemongo" % "fongo" % "2.1.0" % "test",
+  "org.scalactic" %% "scalactic" % "3.0.0",
+  
 )
 
 testOptions in Test ++= Seq(

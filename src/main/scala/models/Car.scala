@@ -8,6 +8,9 @@ import org.bson.types.ObjectId
 case class FindByIdRequest(id: String) {
   require(ObjectId.isValid(id), "the informed id is not a representation of a valid hex string")
 }
+
+
+
 //TODO: Add rental
 case class Car(_id: ObjectId,
                brand: String,
@@ -24,7 +27,11 @@ case class Car(_id: ObjectId,
                kms: Int,
                pictures: List[String],
                rents: List[String]
+               
 
+
+     
+ 
               ) {
   require(brand != null, "Brand not informed")
   require(thumbnail != null, "Thumbnail not informed")
@@ -53,6 +60,7 @@ case class Car(_id: ObjectId,
 
   //TODO: Add rental
 }
+
 
 object Car {
   //Datos que devuelve para el get

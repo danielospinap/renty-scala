@@ -34,35 +34,4 @@ class CarController(repository: CarRepository)(implicit ec: ExecutionContext, ma
         }
       }
     }
-<<<<<<< HEAD
-=======
-
-  pathPrefix("cars/search") {
-      (get & path(Segment).as(FindByIdRequest)) { request =>
-        onComplete(repository.search()) {
-          case Success(Some(car)) =>
-            complete(Marshal(car).to[ResponseEntity].map { e => HttpResponse(entity = e) })
-          case Success(None) =>
-            complete(HttpResponse(status = StatusCodes.NotFound))
-          case Failure(e) =>
-            complete(Marshal(Message(e.getMessage)).to[ResponseEntity].map { e => HttpResponse(entity = e, status = StatusCodes.InternalServerError) })
-        }
-      } ~ (post & pathEndOrSingleSlash & entity(as[Car])) { car =>
-        onComplete(repository.save(car)) {
-          case Success(id) =>
-            complete(HttpResponse(status = StatusCodes.Created, headers = List(Location(s"cars/search/"))))
-          case Failure(e) =>
-            complete(Marshal(Message(e.getMessage)).to[ResponseEntity].map { e => HttpResponse(entity = e, status = StatusCodes.InternalServerError) })
-        }
-      }
-    }
-
-
-
-
-
-
-
-
->>>>>>> db944ad9fc75bee87f7ca897f568dbcc9f381a86
 }

@@ -17,7 +17,6 @@ case class User(_id: ObjectId,
   require(name != null, "name not informed")
   require(password != null, "password not informed")
   require(toquen != null, "toquen not informed")
-  require(activeSession != null, "activeSession not informed")
 
 
   require(name.nonEmpty, "name cannot be empty")

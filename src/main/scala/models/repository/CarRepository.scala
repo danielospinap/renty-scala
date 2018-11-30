@@ -16,30 +16,9 @@ class CarRepository(collection: MongoCollection[Car])(implicit ec: ExecutionCont
     .head()
     .map(Option(_))
 
-<<<<<<< HEAD
-=======
- def search(): Future[Option[Car]] =
-    collection
-    .find(Document())
-    //.first
-   .head()
-   .map(Option(_))
-
-
-
-
->>>>>>> db944ad9fc75bee87f7ca897f568dbcc9f381a86
   def save(car: Car): Future[String] =
     collection
     .insertOne(car)
     .head
     .map { _ => car._id.toHexString }
-<<<<<<< HEAD
-=======
-
-
-
-
-  
->>>>>>> db944ad9fc75bee87f7ca897f568dbcc9f381a86
 }

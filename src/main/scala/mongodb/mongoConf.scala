@@ -12,6 +12,6 @@ object Mongo {
   lazy val config = ConfigFactory.load()
   lazy val mongoClient: MongoClient = MongoClient(System.getenv("DB_URL"))
   lazy val codecRegistry = fromRegistries(fromProviders(classOf[Car]), DEFAULT_CODEC_REGISTRY)
-  lazy val database: MongoDatabase = mongoClient.getDatabase("renty").withCodecRegistry(codecRegistry)
+  lazy val database: MongoDatabase = mongoClient.getDatabase(System.getenv("DB_NAME")).withCodecRegistry(codecRegistry)
   lazy val carCollection: MongoCollection[Car] = database.getCollection[Car]("cars")
 }

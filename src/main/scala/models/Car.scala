@@ -1,27 +1,13 @@
 package models
 
+import com.mongodb.util.JSON
 import io.circe.syntax._
 import io.circe._
-
 import org.bson.types.ObjectId
 
 case class FindByIdRequest(id: String) {
   require(ObjectId.isValid(id), "the informed id is not a representation of a valid hex string")
 }
-<<<<<<< HEAD
-=======
-
-case class FindByIdRequestt(id: String) {
-  require(ObjectId.isValid(id), "the informed id is not a representation of a valid hex string")
-}
-
-//agregado gilbert
-case class Search() {
-  
-}
-
-
->>>>>>> db944ad9fc75bee87f7ca897f568dbcc9f381a86
 //TODO: Add rental
 case class Car(_id: ObjectId,
                brand: String,
@@ -36,7 +22,9 @@ case class Car(_id: ObjectId,
                doors: Int,
                color: String,
                kms: Int,
-               pictures: List[String]
+               pictures: List[String],
+               rents: List[String]
+
               ) {
   require(brand != null, "Brand not informed")
   require(thumbnail != null, "Thumbnail not informed")
@@ -67,6 +55,7 @@ case class Car(_id: ObjectId,
 }
 
 object Car {
+  //Datos que devuelve para el get
   implicit val encoder: Encoder[Car] = (myCar: Car) => {
     Json.obj(
 
@@ -84,10 +73,13 @@ object Car {
       "doors" -> myCar.doors.asJson,
       "color" -> myCar.color.asJson,
       "kms" -> myCar.kms.asJson,
-      "pictures" -> myCar.pictures.asJson
+      "pictures" -> myCar.pictures.asJson,
+      "rents" -> myCar.rents.asJson
+      
     )
   }
 
+  //Datos que recibe en el post
   implicit val decoder: Decoder[Car] = (c: HCursor) => {
     for {
       brand <- c.downField("brand").as[String]
@@ -103,6 +95,7 @@ object Car {
       color <- c.downField("color").as[String]
       kms <- c.downField("kms").as[Int]
       pictures <- c.downField("pictures").as[List[String]]
+      rents <- c.downField("rents").as[List[String]]
     } yield Car(ObjectId.get(),
                 brand,
                 thumbnail,
@@ -116,7 +109,8 @@ object Car {
                 doors,
                 color,
                 kms,
-                pictures
+                pictures,
+                rents
     )
   }
 }

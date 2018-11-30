@@ -5,7 +5,9 @@ import io.circe._
 
 import org.bson.types.ObjectId
 
-
+case class FindUserByIdRequest(id: String) {
+  require(ObjectId.isValid(id), "the informed id is not a representation of a valid hex string")
+}
 
 case class User(_id: ObjectId,
                name: String,

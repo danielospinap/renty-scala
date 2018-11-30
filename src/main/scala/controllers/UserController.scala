@@ -13,22 +13,22 @@ import scala.concurrent.ExecutionContext
 import scala.util.{Failure, Success}
 
 
-class CarController(repository: CarRepository)(implicit ec: ExecutionContext, mat: Materializer) {
-  val carRoutes =
-    pathPrefix("cars") {
-      (get & path(Segment).as(FindByIdRequest)) { request =>
-        onComplete(repository.findById(request.id)) {
-          case Success(Some(car)) =>
-            complete(Marshal(car).to[ResponseEntity].map { e => HttpResponse(entity = e) })
+class UserController(repository: UserRepository)(implicit ec: ExecutionContext, mat: Materializer) {
+  val userRoutes =
+    pathPrefix("users") {
+      (get & path(Segment).as(FindUserByIdRequest)) { request =>
+        onComplete(repository.findUserById(request.id)) {
+          case Success(Some(user)) =>
+            complete(Marshal(user).to[ResponseEntity].map { e => HttpResponse(entity = e) })
           case Success(None) =>
             complete(HttpResponse(status = StatusCodes.NotFound))
           case Failure(e) =>
             complete(Marshal(Message(e.getMessage)).to[ResponseEntity].map { e => HttpResponse(entity = e, status = StatusCodes.InternalServerError) })
         }
-      } ~ (post & pathEndOrSingleSlash & entity(as[Car])) { car =>
-        onComplete(repository.save(car)) {
+      } ~ (post & pathEndOrSingleSlash & entity(as[User])) { user =>
+        onComplete(repository.save(user)) {
           case Success(id) =>
-            complete(HttpResponse(status = StatusCodes.Created, headers = List(Location(s"cars/$id"))))
+            complete(HttpResponse(status = StatusCodes.Created, headers = List(Location(s"users/$id"))))
           case Failure(e) =>
             complete(Marshal(Message(e.getMessage)).to[ResponseEntity].map { e => HttpResponse(entity = e, status = StatusCodes.InternalServerError) })
         }

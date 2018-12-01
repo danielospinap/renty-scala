@@ -29,7 +29,6 @@ class CarController(carRepository: CarRepository)(implicit ec: ExecutionContext)
 
             val myList = cars.map(car => Car.encoder(car)).toList
             val y: JSONArray = new JSONArray(myList)
-            println(y)
 
             complete(HttpResponse(status = StatusCodes.OK, entity = HttpEntity(ContentTypes.`application/json`, y.toString())))
         }
@@ -38,6 +37,19 @@ class CarController(carRepository: CarRepository)(implicit ec: ExecutionContext)
       post {
         entity(as[CreateCar]) { createCar =>
           complete(carRepository.save(createCar))
+        }
+      }
+    } ~ pathPrefix("search"){
+      get {
+        parameters('from.as[String], 'to.as[String], 'pickup.as[String]) { (from, to, pickup) => {
+          onComplete(carRepository.all()) {
+            case Success(cars: Seq[Car]) =>
+
+              val myList = cars.map(car => Car.encoder(car)).toList
+
+              complete(HttpResponse(status = StatusCodes.OK, entity = HttpEntity(ContentTypes.`application/json`, myList.toString())))
+          }
+        }
         }
       }
     }

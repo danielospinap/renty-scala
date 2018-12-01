@@ -20,7 +20,8 @@ case class Car(
                 doors: Int,
                 color: String,
                 kms: Int,
-                pictures: List[String]
+                pictures: List[String],
+                bookings: List[String]
               )
 
 case class CreateCar(

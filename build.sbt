@@ -15,6 +15,8 @@ libraryDependencies ++= Seq(
   "com.typesafe.akka" %% "akka-http" % "10.1.5",
   "com.typesafe.akka" %% "akka-http-testkit" % "10.1.5" % Test,
 
+  "joda-time" % "joda-time" % "2.10.1",
+
   "io.circe" %% "circe-core" % circeVersion,
   "io.circe" %% "circe-generic" % circeVersion,
   "io.circe" %% "circe-parser" % circeVersion,

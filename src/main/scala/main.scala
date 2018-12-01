@@ -24,17 +24,17 @@ object Application extends App {
 
 val routes = //{
     //route1 {
-   //new CarController(new CarRepository(Mongo.carCollection)).carRoutes
+   new CarController(new CarRepository(Mongo.carCollection)).carRoutes
    // } ~
    // route2 {
-    new UserController(new UserRepository(Mongo.userCollection)).userRoutes
+    //new UserController(new UserRepository(Mongo.userCollection)).userRoutes
     //}
   //}
 //routes.foldLeft[Route](reject)(_ ~ _)
   //string1.concat(string2);
 
   Http().bindAndHandle(routes, "0.0.0.0", System.getenv("PORT").toInt).onComplete {
-    case Success(b) => log.info(s"application is up and running at ${b.localAddress.getHostName}:${b.localAddress.getPort}")
+   case Success(b) => log.info(s"application is up and running at ${b.localAddress.getHostName}:${b.localAddress.getPort}")
     case Failure(e) => log.error(s"could not start application: {}", e.getMessage)
   }
 }

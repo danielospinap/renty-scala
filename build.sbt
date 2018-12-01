@@ -15,6 +15,14 @@ val circe = "0.9.3"
 libraryDependencies ++= Seq(
   "com.typesafe.akka" %% "akka-http" % akkaHttp,
   "com.typesafe.akka" %% "akka-stream" % akka,
+  //"com.typesafe.akka" %% "akka-stream-alpakka-google-fcm" % "1.0-M1",
+  //"com.elkozmon" %% "akka-scaladsl" % "2.1" ,
+  "com.elkozmon" %% "akka-stream-firebase-queue" % "2.1" ,
+  "com.google.firebase" % "firebase-admin" % "5.9.0" ,
+  //"com.elkozmon.akka" % "firebasescaladsl" % "5.9.0" ,
+
+
+
   "com.typesafe.akka" %% "akka-slf4j" % akka,
 
   "de.heikoseeberger" %% "akka-http-circe" % "1.20.1",
@@ -40,3 +48,16 @@ testOptions in Test ++= Seq(
 )
 
 
+pomExtra :=
+  <scm>
+    <url>git@github.com:elkozmon/akka-stream-firebase-queue.git</url>
+    <connection>scm:git:git@github.com:elkozmon/akka-stream-firebase-queue.git</connection>
+  </scm>
+  <developers>
+    <developer>
+      <id>elkozmon</id>
+      <name>Lubos Kozmon</name>
+      <timezone>+1</timezone>
+      <url>https://elkozmon.com</url>
+    </developer>
+  </developers>

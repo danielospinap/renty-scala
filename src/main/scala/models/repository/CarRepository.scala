@@ -9,33 +9,40 @@ import org.bson.types.ObjectId
 
 import scala.concurrent.{ExecutionContext, Future}
 
+trait CarRepository {
+  def save(createCar: CreateCar): Future[String]
+}
+
 object CarRepository {
   final case class CarNotFound(id: String) extends Exception(s"Car with id $id not found.")
 }
 
 
-class CarRepository(collection: MongoCollection[Car])(implicit ec: ExecutionContext) {
+class CarRepositoryMongo(collection: MongoCollection[Car])(implicit ec: ExecutionContext) extends CarRepository {
 
-  def all(): Future[Seq[Car]] =
-    collection
-    .find()
-    .toFuture()
+  import de.heikoseeberger.akkahttpcirce.FailFastCirceSupport._
+  import io.circe.generic.auto._
+//  def all(): Future[Seq[Car]] = {
+//    collection
+//    .find()
+//    .toFuture().onSuccess(cars => cars)
+//
+//  }
 
-  def findById(id: String): Future[Car] = {
-    collection
-      .find(Document("_id" -> new ObjectId(id)))
-      .first
-      .toFuture() {
-        case Some(foundCar) =>
-          Future.successful(foundCar)
-        case None =>
-          Future.failed(CarNotFound(id))
-      }
-  }
+//  def findById(id: String): Future[Car] = {
+//    collection
+//      .find(Document("_id" -> new ObjectId(id)))
+//      .first
+//      .toFuture() {
+//        case Some(foundCar) =>
+//          Future.successful(foundCar)
+//        case None =>
+//          Future.failed(CarNotFound(id))
+//      }
+//  }
 
   def save(createCar: CreateCar): Future[String] = {
     val car = Car(
-      ObjectId.get(),
       createCar.brand,
       createCar.thumbnail,
       createCar.price,

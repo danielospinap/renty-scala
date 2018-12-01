@@ -1,5 +1,9 @@
 package models
 
+import com.mongodb.util.JSON
+import io.circe.syntax._
+import io.circe._
+import org.bson.types
 import org.bson.types.ObjectId
 
 case class Car(
@@ -34,6 +38,26 @@ case class CreateCar(
                       kms: Int,
                       pictures: List[String]
                     )
+
+
+object Car {
+  def apply(
+             brand: String,
+             thumbnail: String,
+             price: String,
+             carType: String,
+             model: String,
+             plate: String,
+             rating: Int,
+             capacity: Int,
+             transmission: String,
+             doors: Int,
+             color: String,
+             kms: Int,
+             pictures: List[String]
+           ): Car = new Car( new types.ObjectId(), brand, thumbnail, price, carType, model, plate, rating, capacity, transmission, doors, color, kms, pictures)
+}
+
 
 //import com.mongodb.util.JSON
 //import io.circe.syntax._

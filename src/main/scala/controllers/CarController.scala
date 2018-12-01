@@ -21,8 +21,13 @@ class CarController(carRepository: CarRepository) extends Router with Directives
 
   override def route: Route = pathPrefix("cars") {
     pathEndOrSingleSlash {
-      get {
-        complete(carRepository.all())
+//      get {
+//        complete(carRepository.all())
+//      }
+      post {
+        entity(as[CreateCar]) { createCar =>
+          complete(carRepository.save(createCar))
+        }
       }
     }
   }

@@ -10,6 +10,8 @@ import org.bson.types.ObjectId
 import scala.concurrent.{ExecutionContext, Future}
 
 trait CarRepository {
+  def all(): Future[Seq[Car]]
+  //def findById(id: String): Future[Car]
   def save(createCar: CreateCar): Future[String]
 }
 
@@ -22,12 +24,13 @@ class CarRepositoryMongo(collection: MongoCollection[Car])(implicit ec: Executio
 
   import de.heikoseeberger.akkahttpcirce.FailFastCirceSupport._
   import io.circe.generic.auto._
-//  def all(): Future[Seq[Car]] = {
-//    collection
-//    .find()
-//    .toFuture().onSuccess(cars => cars)
-//
-//  }
+  def all(): Future[Seq[Car]] = {
+    collection
+      .find()
+      .toFuture()
+
+
+  }
 
 //  def findById(id: String): Future[Car] = {
 //    collection
@@ -43,6 +46,7 @@ class CarRepositoryMongo(collection: MongoCollection[Car])(implicit ec: Executio
 
   def save(createCar: CreateCar): Future[String] = {
     val car = Car(
+      ObjectId.get(),
       createCar.brand,
       createCar.thumbnail,
       createCar.price,

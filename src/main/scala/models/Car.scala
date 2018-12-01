@@ -39,23 +39,15 @@ case class CreateCar(
                       pictures: List[String]
                     )
 
+case class Cars(list: Seq[Car])
 
-object Car {
-  def apply(
-             brand: String,
-             thumbnail: String,
-             price: String,
-             carType: String,
-             model: String,
-             plate: String,
-             rating: Int,
-             capacity: Int,
-             transmission: String,
-             doors: Int,
-             color: String,
-             kms: Int,
-             pictures: List[String]
-           ): Car = new Car( new types.ObjectId(), brand, thumbnail, price, carType, model, plate, rating, capacity, transmission, doors, color, kms, pictures)
+object Cars {
+  //Datos que devuelve para el get
+  implicit val encoder: Encoder[Cars] = (myCars: Cars) => {
+    Json.obj(
+      "list" -> myCars.list.asJson
+    )
+  }
 }
 
 
@@ -113,30 +105,30 @@ object Car {
 //  //TODO: Add rental
 //}
 //
-//object Car {
-//  //Datos que devuelve para el get
-//  implicit val encoder: Encoder[Car] = (myCar: Car) => {
-//    Json.obj(
-//
-//      //TODO: Add rental
-//      "id" -> myCar._id.toHexString.asJson,
-//      "brand" -> myCar.brand.asJson,
-//      "thumbnail" -> myCar.thumbnail.asJson,
-//      "price" -> myCar.price.asJson,
-//      "type" -> myCar.carType.asJson,
-//      "model" -> myCar.model.asJson,
-//      "plate" -> myCar.plate.asJson,
-//      "rating" -> myCar.rating.asJson,
-//      "capacity" -> myCar.capacity.asJson,
-//      "transmission" -> myCar.transmission.asJson,
-//      "doors" -> myCar.doors.asJson,
-//      "color" -> myCar.color.asJson,
-//      "kms" -> myCar.kms.asJson,
-//      "pictures" -> myCar.pictures.asJson
-//    )
-//  }
-//
-//  //Datos que recibe en el post
+object Car {
+  //Datos que devuelve para el get
+  implicit val encoder: Encoder[Car] = (myCar: Car) => {
+    Json.obj(
+
+      //TODO: Add rental
+      "id" -> myCar._id.toHexString.asJson,
+      "brand" -> myCar.brand.asJson,
+      "thumbnail" -> myCar.thumbnail.asJson,
+      "price" -> myCar.price.asJson,
+      "type" -> myCar.carType.asJson,
+      "model" -> myCar.model.asJson,
+      "plate" -> myCar.plate.asJson,
+      "rating" -> myCar.rating.asJson,
+      "capacity" -> myCar.capacity.asJson,
+      "transmission" -> myCar.transmission.asJson,
+      "doors" -> myCar.doors.asJson,
+      "color" -> myCar.color.asJson,
+      "kms" -> myCar.kms.asJson,
+      "pictures" -> myCar.pictures.asJson
+    )
+  }
+
+  //Datos que recibe en el post
 //  implicit val decoder: Decoder[Car] = (c: HCursor) => {
 //    for {
 //      brand <- c.downField("brand").as[String]
@@ -170,7 +162,7 @@ object Car {
 //                rents
 //    )
 //  }
-//}
+}
 //
 //case class Message(message: String)
 //

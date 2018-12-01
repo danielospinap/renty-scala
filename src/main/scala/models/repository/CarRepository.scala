@@ -1,8 +1,10 @@
 package models.repository
 
+import akka.japi.Option.Some
 import org.mongodb.scala._
 import org.mongodb.scala.bson.ObjectId
 import models._
+import models.repository.CarRepository.CarNotFound
 import org.bson.types.ObjectId
 
 import scala.concurrent.{ExecutionContext, Future}
@@ -19,14 +21,19 @@ class CarRepository(collection: MongoCollection[Car])(implicit ec: ExecutionCont
     .find()
     .toFuture()
 
-  def findById(id: String): Future[Option[Car]] =
+  def findById(id: String): Future[Car] = {
     collection
-    .find(Document("_id" -> new ObjectId(id)))
-    .first
-    .head()
-    .map(Option(_))
+      .find(Document("_id" -> new ObjectId(id)))
+      .first
+      .toFuture() {
+        case Some(foundCar) =>
+          Future.successful(foundCar)
+        case None =>
+          Future.failed(CarNotFound(id))
+      }
+  }
 
-  def save(createCar: CreateCar): Future[String] ={
+  def save(createCar: CreateCar): Future[String] = {
     val car = Car(
       ObjectId.get(),
       createCar.brand,

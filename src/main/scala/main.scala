@@ -5,7 +5,7 @@ import akka.stream.ActorMaterializer
 import scala.concurrent.{Await, ExecutionContext}
 import scala.util.{Failure, Success}
 import controllers._
-import models.repository.{CarRepository, CarRepositoryMongo}
+import models.repository.{BookingRepository, BookingRepositoryMongo, CarRepository, CarRepositoryMongo}
 import mongodb.Mongo
 
 object Main extends App {
@@ -22,9 +22,10 @@ object Main extends App {
 
   //Repositories
   val carRepository = new CarRepositoryMongo(Mongo.carCollection)
+  val bookingRepository = new BookingRepositoryMongo(Mongo.bookingCollection)
 
   //Controllers
-  val router = new CarController(carRepository)
+  val router = new CarController(carRepository, bookingRepository)
 
 
   val server = new Server(router, host, port)

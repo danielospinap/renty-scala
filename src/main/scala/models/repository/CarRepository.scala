@@ -6,6 +6,7 @@ import org.mongodb.scala.bson.ObjectId
 import models._
 import models.repository.CarRepository.CarNotFound
 import org.bson.types.ObjectId
+import org.mongodb.scala.bson.conversions.Bson
 
 import scala.concurrent.{ExecutionContext, Future}
 
@@ -13,6 +14,7 @@ trait CarRepository {
   def all(): Future[Seq[Car]]
   def findById(id: String): Future[Car]
   def save(createCar: CreateCar): Future[String]
+  def getCarsById(listId: Seq[String]): Future[Seq[Car]]
 }
 
 object CarRepository {
@@ -61,5 +63,10 @@ class CarRepositoryMongo(collection: MongoCollection[Car])(implicit ec: Executio
       .insertOne(car)
       .head
       .map { _ => car._id.toHexString }
+  }
+
+  def getCarsById(listId: Seq[String]): Future[Seq[Car]] = {
+    val filter = """{carId:{$in:""" + s"""[$listId]}}"""
+    collection.find(Document(filter)).toFuture()
   }
 }

@@ -15,7 +15,7 @@ case class Booking(
                     pickUp: String
                    )
 
-case class createBooking(
+case class CreateBooking(
                           carId: String,
                           userId: String,
                           from: String,

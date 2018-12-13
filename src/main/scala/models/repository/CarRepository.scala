@@ -36,12 +36,7 @@ class CarRepositoryMongo(collection: MongoCollection[Car])(implicit ec: Executio
     collection
       .find(Document("_id" -> new ObjectId(id)))
       .first
-      .toFuture() {
-        case Some(foundCar) =>
-          Future.successful(foundCar)
-        case None =>
-          Future.failed(CarNotFound(id))
-      }
+      .toFuture()
   }
 
   def save(createCar: CreateCar): Future[String] = {
@@ -60,8 +55,7 @@ class CarRepositoryMongo(collection: MongoCollection[Car])(implicit ec: Executio
       createCar.doors,
       createCar.color,
       createCar.kms,
-      createCar.pictures,
-      list
+      createCar.pictures
     )
     collection
       .insertOne(car)

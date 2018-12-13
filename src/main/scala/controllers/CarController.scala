@@ -1,5 +1,6 @@
 package controllers
 
+import akka.http.javadsl.model.ws.Message
 import akka.http.scaladsl.marshalling.{Marshal, ToResponseMarshallable}
 import akka.http.scaladsl.model._
 import akka.http.scaladsl.model.headers.Location
@@ -26,11 +27,9 @@ class CarController(carRepository: CarRepository)(implicit ec: ExecutionContext)
       get {
         onComplete(carRepository.all()) {
           case Success(cars: Seq[Car]) =>
-
-            val myList = cars.map(car => Car.encoder(car)).toList
-            val y: JSONArray = new JSONArray(myList)
-
-            complete(HttpResponse(status = StatusCodes.OK, entity = HttpEntity(ContentTypes.`application/json`, y.toString())))
+            complete(StatusCodes.OK, cars)
+          case Failure(exception) =>
+            complete(StatusCodes.InternalServerError, exception.getMessage())
         }
 
       } ~
@@ -39,20 +38,30 @@ class CarController(carRepository: CarRepository)(implicit ec: ExecutionContext)
           complete(carRepository.save(createCar))
         }
       }
-    } ~ pathPrefix("search"){
-      get {
-        parameters('from.as[String], 'to.as[String], 'pickup.as[String]) { (from, to, pickup) => {
-          onComplete(carRepository.all()) {
-            case Success(cars: Seq[Car]) =>
-
-              val myList = cars.map(car => Car.encoder(car)).toList
-
-              complete(HttpResponse(status = StatusCodes.OK, entity = HttpEntity(ContentTypes.`application/json`, myList.toString())))
-          }
-        }
-        }
-      }
-    }
+//    } ~ pathPrefix("search"){
+//      get {
+//        parameters('from.as[String], 'to.as[String], 'pickup.as[String]) { (from, to, pickup) => {
+//          onComplete(carRepository.all()) {
+//            case Success(cars: Seq[Car]) =>
+//              val myList = cars.map(car => Car.encoder(car)).toList
+//
+//              complete(HttpResponse(status = StatusCodes.OK, entity = HttpEntity(ContentTypes.`application/json`, myList.toString())))
+//          }
+//        }
+//        }
+//      }
+//    } ~ path(Segment) { id: String =>
+//      get {
+//        onComplete(carRepository.findById(id)) {
+//          case Success(car) =>
+//            complete(Marshal(car).to[ResponseEntity].map { e => HttpResponse(entity = e) })
+//          case Failure(exception) =>
+//            complete(Marshal(Message(e.getMessage)).to[ResponseEntity].map { e => HttpResponse(entity = e, status = StatusCodes.InternalServerError) })
+//
+//        }
+//      }
+//
+//    }
   }
 
 //  val carRoutes =

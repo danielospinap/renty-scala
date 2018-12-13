@@ -50,38 +50,17 @@ class CarController(carRepository: CarRepository)(implicit ec: ExecutionContext)
 //        }
 //        }
 //      }
-//    } ~ path(Segment) { id: String =>
-//      get {
-//        onComplete(carRepository.findById(id)) {
-//          case Success(car) =>
-//            complete(Marshal(car).to[ResponseEntity].map { e => HttpResponse(entity = e) })
-//          case Failure(exception) =>
-//            complete(Marshal(Message(e.getMessage)).to[ResponseEntity].map { e => HttpResponse(entity = e, status = StatusCodes.InternalServerError) })
-//
-//        }
-//      }
-//
-//    }
-  }
+    } ~ path(Segment) { id: String =>
+      get {
+        onComplete(carRepository.findById(id)) {
+          case Success(car) =>
+            complete(StatusCodes.OK, car)
+          case Failure(exception) =>
+            complete(StatusCodes.InternalServerError, exception.getMessage())
 
-//  val carRoutes =
-//    pathPrefix("cars") {
-//      (get & path(Segment).as(FindByIdRequest)) { request =>
-//        onComplete(repository.findById(request.id)) {
-//          case Success(Some(car)) =>
-//            complete(Marshal(car).to[ResponseEntity].map { e => HttpResponse(entity = e) })
-//          case Success(None) =>
-//            complete(HttpResponse(status = StatusCodes.NotFound))
-//          case Failure(e) =>
-//            complete(Marshal(Message(e.getMessage)).to[ResponseEntity].map { e => HttpResponse(entity = e, status = StatusCodes.InternalServerError) })
-//        }
-//      } ~ (post & pathEndOrSingleSlash & entity(as[Car])) { car =>
-//        onComplete(repository.save(car)) {
-//          case Success(id) =>
-//            complete(HttpResponse(status = StatusCodes.Created, headers = List(Location(s"cars/$id"))))
-//          case Failure(e) =>
-//            complete(Marshal(Message(e.getMessage)).to[ResponseEntity].map { e => HttpResponse(entity = e, status = StatusCodes.InternalServerError) })
-//        }
-//      }
-//    }
+        }
+      }
+
+    }
+  }
 }

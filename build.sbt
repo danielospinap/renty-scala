@@ -1,63 +1,36 @@
 enablePlugins(JavaAppPackaging)
-name := "renty-scala-feature-SearchChanges"
-
+name := "Renty"
 
 version := "0.1"
 
 scalaVersion := "2.12.7"
 
-resolvers += Resolver.jcenterRepo
-
-val akkaHttp = "10.1.1"
-val akka = "2.5.11"
-val circe = "0.9.3"
+val circeVersion = "0.10.0"
 
 libraryDependencies ++= Seq(
-  "com.typesafe.akka" %% "akka-http" % akkaHttp,
-  "com.typesafe.akka" %% "akka-stream" % akka,
-  //"com.typesafe.akka" %% "akka-stream-alpakka-google-fcm" % "1.0-M1",
-  //"com.elkozmon" %% "akka-scaladsl" % "2.1" ,
-  "com.elkozmon" %% "akka-stream-firebase-queue" % "2.1" ,
-  "com.google.firebase" % "firebase-admin" % "5.9.0" ,
-  //"com.elkozmon.akka" % "firebasescaladsl" % "5.9.0" ,
+  "com.twitter"%%"finagle-http"%"6.41.0",
+  //"com.google.firebase" % "firebase-admin" % "6.0.0",
+  //"com.typesafe.akka" %%  "akka-http-core"    % "2.4.5",
+  "com.google.firebase"%"firebase-server-sdk"%"3.0.0",
+   "com.github.firebase4s" %% "firebase4s" % "0.0.4",
+  "com.typesafe.akka" %% "akka-actor" % "2.5.18",
+  "com.typesafe.akka" %% "akka-testkit" % "2.5.18" % Test,
+  "com.typesafe.akka" %% "akka-stream" % "2.5.18",
+  "com.typesafe.akka" %% "akka-stream-testkit" % "2.5.18" % Test,
+  "com.typesafe.akka" %% "akka-http" % "10.1.5",
+  "com.typesafe.akka" %% "akka-http-testkit" % "10.1.5" % Test,
 
+  "io.circe" %% "circe-core" % circeVersion,
+  "io.circe" %% "circe-generic" % circeVersion,
+  "io.circe" %% "circe-parser" % circeVersion,
+  "de.heikoseeberger" %% "akka-http-circe" % "1.22.0",
 
-
-  "com.typesafe.akka" %% "akka-slf4j" % akka,
-
-  "de.heikoseeberger" %% "akka-http-circe" % "1.20.1",
-
-  "io.circe" %% "circe-generic" % circe,
+  "org.mongodb.scala" %% "mongo-scala-driver" % "2.5.0",
 
   "ch.qos.logback" % "logback-classic" % "1.2.3",
-  "org.mongodb.scala" %% "mongo-scala-driver" % "2.1.0",
 
   //test libraries
-  "org.scalatest" %% "scalatest" % "3.0.1" % "test",
-  "org.pegdown" % "pegdown" % "1.6.0" % "test",
-  "com.typesafe.akka" %% "akka-http-testkit" % akkaHttp % "test",
   "org.mongodb" % "mongo-java-driver" % "3.4.2",
-  "com.github.fakemongo" % "fongo" % "2.1.0" % "test",
-  "org.scalactic" %% "scalactic" % "3.0.0",
-  
+  "com.github.fakemongo" % "fongo" % "2.1.0" % "test"
 )
 
-testOptions in Test ++= Seq(
-  Tests.Argument(TestFrameworks.ScalaTest, "-u", "target/test-reports"),
-  Tests.Argument(TestFrameworks.ScalaTest, "-h", "target/test-reports")
-)
-
-
-pomExtra :=
-  <scm>
-    <url>git@github.com:elkozmon/akka-stream-firebase-queue.git</url>
-    <connection>scm:git:git@github.com:elkozmon/akka-stream-firebase-queue.git</connection>
-  </scm>
-  <developers>
-    <developer>
-      <id>elkozmon</id>
-      <name>Lubos Kozmon</name>
-      <timezone>+1</timezone>
-      <url>https://elkozmon.com</url>
-    </developer>
-  </developers>

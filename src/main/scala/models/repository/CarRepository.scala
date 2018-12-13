@@ -11,7 +11,7 @@ import scala.concurrent.{ExecutionContext, Future}
 
 trait CarRepository {
   def all(): Future[Seq[Car]]
-  //def findById(id: String): Future[Car]
+  def findById(id: String): Future[Car]
   def save(createCar: CreateCar): Future[String]
 }
 
@@ -32,19 +32,15 @@ class CarRepositoryMongo(collection: MongoCollection[Car])(implicit ec: Executio
 
   }
 
-//  def findById(id: String): Future[Car] = {
-//    collection
-//      .find(Document("_id" -> new ObjectId(id)))
-//      .first
-//      .toFuture() {
-//        case Some(foundCar) =>
-//          Future.successful(foundCar)
-//        case None =>
-//          Future.failed(CarNotFound(id))
-//      }
-//  }
+  def findById(id: String): Future[Car] = {
+    collection
+      .find(Document("_id" -> new ObjectId(id)))
+      .first
+      .toFuture()
+  }
 
   def save(createCar: CreateCar): Future[String] = {
+    val list = List[String]()
     val car = Car(
       ObjectId.get(),
       createCar.brand,

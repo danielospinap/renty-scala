@@ -10,6 +10,7 @@
 target/
 project/project/
 project/target/
+localconf
 
 # User-specific stuff
 .idea/**/workspace.xml

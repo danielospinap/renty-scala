@@ -14,16 +14,11 @@ libraryDependencies ++= Seq(
   "com.typesafe.akka" %% "akka-stream-testkit" % "2.5.18" % Test,
   "com.typesafe.akka" %% "akka-http" % "10.1.5",
   "com.typesafe.akka" %% "akka-http-testkit" % "10.1.5" % Test,
-
-  "joda-time" % "joda-time" % "2.10.1",
-
   "io.circe" %% "circe-core" % circeVersion,
   "io.circe" %% "circe-generic" % circeVersion,
   "io.circe" %% "circe-parser" % circeVersion,
   "de.heikoseeberger" %% "akka-http-circe" % "1.22.0",
-
   "org.mongodb.scala" %% "mongo-scala-driver" % "2.5.0",
-
   "ch.qos.logback" % "logback-classic" % "1.2.3",
 
   //test libraries

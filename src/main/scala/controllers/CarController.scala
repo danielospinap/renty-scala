@@ -12,8 +12,6 @@ import io.circe.Json
 import models._
 import models.repository._
 
-import org.joda.time.DateTime
-import org.joda.time.format.DateTimeFormatter
 import scala.concurrent.{ExecutionContext, Future}
 import scala.util.parsing.json.JSONArray
 import scala.util.{Failure, Success}

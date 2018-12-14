@@ -8,19 +8,25 @@ import org.bson.types.ObjectId
 
 case class Booking(
                     _id: ObjectId,
-                    carId: ObjectId,
                     userId: ObjectId,
-                    from: Date,
-                    to: Date,
-                    pickUp: String
+                    car: Car,
+                    bookingDate: Date,
+                    pickUp: String,
+                    pickupDate: Date,
+                    deliverPlace: String,
+                    deliverDate: Date,
+                    rental: Rental
                    )
 
 case class CreateBooking(
-                          carId: String,
                           userId: String,
-                          from: String,
-                          to: String,
-                          pickUp: String
+                          car: Car,
+                          bookingDate: String,
+                          pickUp: String,
+                          pickupDate: String,
+                          deliverPlace: String,
+                          deliverDate: String,
+                          rental: Rental
                         )
 
 case class Bookings(list: Seq[Booking])
@@ -32,9 +38,11 @@ object Booking {
       "id" -> booking._id.toHexString.asJson,
       "carId" -> booking.carId.toHexString.asJson,
       "userId" -> booking.userId.toHexString.asJson,
-      "from" -> booking.from.toString.asJson,
-      "to" -> booking.from.toString.asJson,
-      "pickUp" -> booking.pickUp.asJson
+      "bookingDate" -> booking.bookingDate.toString.asJson,
+      "pickUp" -> booking.pickUp.asJson,
+      "pickupDate" -> booking.pickupDate.toString.asJson,
+      "deliverPlace" -> booking.deliverPlace.asJson,
+      "deliverDate" -> booking.deliverDate.toString.asJson
     )
   }
 }

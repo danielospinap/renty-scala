@@ -17,6 +17,7 @@ libraryDependencies ++= Seq(
   "io.circe" %% "circe-core" % circeVersion,
   "io.circe" %% "circe-generic" % circeVersion,
   "io.circe" %% "circe-parser" % circeVersion,
+  "io.spray" %%  "spray-json" % "1.3.5",
   "de.heikoseeberger" %% "akka-http-circe" % "1.22.0",
   "org.mongodb.scala" %% "mongo-scala-driver" % "2.5.0",
   "ch.qos.logback" % "logback-classic" % "1.2.3",

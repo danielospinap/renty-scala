@@ -36,8 +36,8 @@ class CarController(carRepository: CarRepository, bookingRepository: BookingRepo
               val dateTo = new SimpleDateFormat("dd/MM/yyyy").parse(to)
               onComplete(bookingRepository.all()) {
                 case Success(bookings: Seq[Booking]) =>
-                  val filteredBookings: Seq[Booking] = bookings.filter(booking => dateFrom.after(booking.to))
-                  val carIds = filteredBookings.map(booking => booking.carId.toHexString)
+                  val filteredBookings: Seq[Booking] = bookings.filter(booking => dateFrom.after(booking.deliverDate))
+                  val carIds = filteredBookings.map(booking => booking.car._id.toHexString)
                   onComplete(carRepository.getCarsById(carIds)) {
                     case Success(newCars: Seq[Car]) =>
                       val filteredCars = newCars.filter(car => car.carType == `type`)
@@ -80,15 +80,3 @@ class CarController(carRepository: CarRepository, bookingRepository: BookingRepo
     }
   }
 }
-//    } ~ pathPrefix("search"){
-//      get {
-//        parameters('from.as[String], 'to.as[String], 'pickup.as[String]) { (from, to, pickup) => {
-//          onComplete(carRepository.all()) {
-//            case Success(cars: Seq[Car]) =>
-//              val myList = cars.map(car => Car.encoder(car)).toList
-//
-//              complete(HttpResponse(status = StatusCodes.OK, entity = HttpEntity(ContentTypes.`application/json`, myList.toString())))
-//          }
-//        }
-//        }
-//      }

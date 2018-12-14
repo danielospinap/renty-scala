@@ -21,7 +21,7 @@ class BookingController(bookingRepository: BookingRepository, carRepository: Car
   }
 
   override def route: Route = pathPrefix("booking") {
-    path("") {
+    pathEndOrSingleSlash {
       post {
         entity(as[bookingRequest]) { params =>
           val token: String = params.token
@@ -44,14 +44,21 @@ class BookingController(bookingRepository: BookingRepository, carRepository: Car
             case Failure(exception) =>
               complete(StatusCodes.InternalServerError, exception.getMessage())
           }
-
-
         }
       }
-
     } ~
-    get {
-
+    path("" / ) {
+      parameter('token) { token =>
+        onComplete(tokenUid(token)) {
+          case Success(uid) =>
+            onComplete(bookingRepository.findByUserId(uid)) {
+              case Success(bookings) =>
+                complete(StatusCodes.OK, bookings)
+            }
+          case Failure(exception) =>
+            complete(StatusCodes.NotFound, exception.getMessage())
+        }
+      }
     }
   }
 

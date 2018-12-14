@@ -94,18 +94,4 @@ class CarController(carRepository: CarRepository, bookingRepository: BookingRepo
 //        }
 //        }
 //      }
-
-
 /*
-val from: String = requestFrom
-            val to: String = requestTo
-            val dateFrom = to_date(from)
-            val dateTo = to_date(to)
-
-            val myList = cars.map(car => {
-              val bookingList: List[String] = car.bookings
-              bookingList.map()
-              if(car.bookings)
-                Car.encoder(car)
-            }).toList
- */

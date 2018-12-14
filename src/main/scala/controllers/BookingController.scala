@@ -45,6 +45,9 @@ class BookingController(bookingRepository: BookingRepository, carRepository: Car
               complete(StatusCodes.InternalServerError, exception.getMessage())
           }
         }
+      } ~
+      delete {
+
       }
     } ~
     path("" / ) {

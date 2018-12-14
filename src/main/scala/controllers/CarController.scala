@@ -12,8 +12,6 @@ import io.circe.Json
 import models._
 import models.repository._
 
-import org.joda.time.DateTime
-import org.joda.time.format.DateTimeFormatter
 import scala.concurrent.{ExecutionContext, Future}
 import scala.util.parsing.json.JSONArray
 import scala.util.{Failure, Success}
@@ -27,7 +25,7 @@ class CarController(carRepository: CarRepository, bookingRepository: BookingRepo
   import io.circe.generic.auto._
 
   override def route: Route = pathPrefix("cars") {
-    path("search") {
+    pathPrefix("search") {
       get {
         parameters('from, 'to, 'type, 'pickup) { (from, to, `type`, pickup ) =>
 
@@ -94,4 +92,3 @@ class CarController(carRepository: CarRepository, bookingRepository: BookingRepo
 //        }
 //        }
 //      }
-/*

@@ -7,11 +7,15 @@ import scala.util.{Failure, Success}
 import controllers._
 import models.repository.{BookingRepository, BookingRepositoryMongo, CarRepository, CarRepositoryMongo}
 import mongodb.Mongo
+import com.firebase4s.App
 
 object Main extends App {
 
   val host = "0.0.0.0"
   val port = System.getenv("PORT").toInt
+
+  val serviceAccount = getClass.getResourceAsStream("/serviceAccountCredentials.json")
+  App.initialize(serviceAccount,"")
 
   implicit val system: ActorSystem = ActorSystem("renty-scala")
   implicit val materializer: ActorMaterializer = ActorMaterializer()

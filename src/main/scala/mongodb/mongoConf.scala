@@ -12,7 +12,7 @@ import models._
 object Mongo {
   lazy val config = ConfigFactory.load()
   lazy val mongoClient: MongoClient = MongoClient(System.getenv("DB_URL"))
-  lazy val codecRegistry = fromRegistries(fromProviders(classOf[Car], classOf[CreateCar]), DEFAULT_CODEC_REGISTRY)
+  lazy val codecRegistry = fromRegistries(fromProviders(classOf[Car], classOf[CreateCar], classOf[Rental]), DEFAULT_CODEC_REGISTRY)
   lazy val database: MongoDatabase = mongoClient.getDatabase(System.getenv("DB_NAME")).withCodecRegistry(codecRegistry)
   lazy val carCollection: MongoCollection[Car] = database.getCollection[Car]("cars")
   lazy val bookingCollection: MongoCollection[Booking] = database.getCollection[Booking]("bookings")

@@ -13,6 +13,9 @@ import scala.util.{Failure, Success}
 
 class BookingController(bookingRepository: BookingRepository, carRepository: CarRepository)(implicit ec: ExecutionContext) extends Router with Directives {
 
+  import de.heikoseeberger.akkahttpcirce.FailFastCirceSupport._
+  import io.circe.generic.auto._
+
   case class bookingRequest(token: String, carId: String, bookingDate: String, pickup: String, pickupDate: String, deliverPlace: String, deliverDate: String)
   val auth: Auth = Auth.getInstance()
 

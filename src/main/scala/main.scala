@@ -15,7 +15,7 @@ object Main extends App {
   val port = System.getenv("PORT").toInt
 
   val serviceAccount = getClass.getResourceAsStream("/serviceAccountCredentials.json")
-  App.initialize(serviceAccount,"")
+//  App.initialize(serviceAccount,"")
 
   implicit val system: ActorSystem = ActorSystem("renty-scala")
   implicit val materializer: ActorMaterializer = ActorMaterializer()

@@ -125,7 +125,8 @@ object Car {
       "doors" -> myCar.doors.asJson,
       "color" -> myCar.color.asJson,
       "kms" -> myCar.kms.asJson,
-      "pictures" -> myCar.pictures.asJson
+      "pictures" -> myCar.pictures.asJson,
+      "rental" -> myCar.rental.asJson
     )
   }
 

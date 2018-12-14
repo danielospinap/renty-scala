@@ -27,7 +27,7 @@ class CarController(carRepository: CarRepository, bookingRepository: BookingRepo
   import io.circe.generic.auto._
 
   override def route: Route = pathPrefix("cars") {
-    path("search") {
+    pathPrefix("search") {
       get {
         parameters('from, 'to, 'type, 'pickup) { (from, to, `type`, pickup ) =>
 
@@ -94,4 +94,3 @@ class CarController(carRepository: CarRepository, bookingRepository: BookingRepo
 //        }
 //        }
 //      }
-/*

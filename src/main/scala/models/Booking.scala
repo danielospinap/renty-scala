@@ -36,7 +36,7 @@ object Booking {
   implicit val encoder: Encoder[Booking] = (booking: Booking) => {
     Json.obj(
       "id" -> booking._id.toHexString.asJson,
-      "carId" -> booking.carId.toHexString.asJson,
+      "carId" -> booking.car.asJson,
       "userId" -> booking.userId.toHexString.asJson,
       "bookingDate" -> booking.bookingDate.toString.asJson,
       "pickUp" -> booking.pickUp.asJson,

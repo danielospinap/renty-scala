@@ -43,6 +43,7 @@ class CarRepositoryMongo(collection: MongoCollection[Car])(implicit ec: Executio
 
   def save(createCar: CreateCar): Future[String] = {
     val list = List[String]()
+    val rental = new Rental(ObjectId.get(), "samurai")
     val car = Car(
       ObjectId.get(),
       createCar.brand,
@@ -57,7 +58,8 @@ class CarRepositoryMongo(collection: MongoCollection[Car])(implicit ec: Executio
       createCar.doors,
       createCar.color,
       createCar.kms,
-      createCar.pictures
+      createCar.pictures,
+      rental
     )
     collection
       .insertOne(car)

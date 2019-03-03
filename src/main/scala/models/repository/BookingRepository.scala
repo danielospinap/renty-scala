@@ -56,7 +56,7 @@ class BookingRepositoryMongo(collection: MongoCollection[Booking])(implicit ec: 
 
   override def findByUserId(userId: String): Future[Seq[Booking]] = {
     collection
-      .find(Document("userId" -> new ObjectId(userId)))
+      .find(Document("userId" -> userId))
       .toFuture()
   }
 

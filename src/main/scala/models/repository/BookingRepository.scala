@@ -5,15 +5,17 @@ import models._
 import org.mongodb.scala._
 import org.bson.types.ObjectId
 import io.circe.syntax._
-
 import java.util.Date
 import java.text.SimpleDateFormat
+
+import org.mongodb.scala.result.DeleteResult
 
 trait BookingRepository {
   def all(): Future[Seq[Booking]]
   def findById(id: String): Future[Booking]
   def save(createBooking: CreateBooking): Future[String]
   def findByUserId(userId: String): Future[Seq[Booking]]
+  def deleteById(id: String): Future[String]
 }
 
 object BookingRepository {
@@ -57,4 +59,10 @@ class BookingRepositoryMongo(collection: MongoCollection[Booking])(implicit ec: 
       .find(Document("userId" -> new ObjectId(userId)))
       .toFuture()
   }
+
+  /*override def deleteById(id: String): Future[String] = {
+    collection
+      .deleteOne(Document("_id" -> new ObjectId(id)))
+      .toFuture()
+  }*/
 }

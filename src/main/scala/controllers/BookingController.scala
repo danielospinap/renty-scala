@@ -56,19 +56,23 @@ class BookingController(bookingRepository: BookingRepository, carRepository: Car
           }
         }
       } ~
-    path("" / ) {
-      parameter('token) { token =>
-        onComplete(tokenUid(token)) {
-          case Success(uid) =>
-            onComplete(bookingRepository.findByUserId(uid)) {
-              case Success(bookings) =>
-                complete(StatusCodes.OK, bookings)
-            }
-          case Failure(exception) =>
-            complete(StatusCodes.NotFound, exception.getMessage())
+    pathPrefix("myBookings") {
+      get {
+        parameter('token) { token =>
+          onComplete(tokenUid(token)) {
+            case Success(uid) =>
+              onComplete(bookingRepository.findByUserId(uid)) {
+                case Success(bookings) =>
+                  complete(StatusCodes.OK, bookings)
+              }
+            case Failure(exception) =>
+              complete(StatusCodes.NotFound, exception.getMessage())
+          }
         }
       }
+
     }
+
   }
 
   def tokenUid(token: String): Future[String] = {

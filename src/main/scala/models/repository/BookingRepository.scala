@@ -15,7 +15,7 @@ trait BookingRepository {
   def findById(id: String): Future[Booking]
   def save(createBooking: CreateBooking): Future[String]
   def findByUserId(userId: String): Future[Seq[Booking]]
-//  def deleteById(id: String): Future[String]
+  def deleteById(id: String): Future[Booking]
 }
 
 object BookingRepository {
@@ -60,9 +60,9 @@ class BookingRepositoryMongo(collection: MongoCollection[Booking])(implicit ec: 
       .toFuture()
   }
 
-  /*override def deleteById(id: String): Future[String] = {
+  override def deleteById(id: String): Future[Booking] = {
     collection
-      .deleteOne(Document("_id" -> new ObjectId(id)))
+      .findOneAndDelete(Document("_id" -> new ObjectId(id)))
       .toFuture()
-  }*/
+  }
 }

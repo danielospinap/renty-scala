@@ -37,7 +37,7 @@ class BookingRepositoryMongo(collection: MongoCollection[Booking])(implicit ec: 
   override def save(createBooking: CreateBooking): Future[String] = {
     val booking = Booking(
       ObjectId.get(),
-      new ObjectId(createBooking.userId),
+      createBooking.userId,
       createBooking.car,
       new SimpleDateFormat("dd/MM/yyyy").parse(createBooking.bookingDate),
       createBooking.pickUp,

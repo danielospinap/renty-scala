@@ -2,7 +2,7 @@ package models.repository
 
 import akka.japi.Option.Some
 import org.mongodb.scala._
-import org.mongodb.scala.bson.ObjectId
+import org.mongodb.scala.bson.{BsonString, ObjectId}
 import models._
 import models.repository.CarRepository.CarNotFound
 import org.bson.types.ObjectId
@@ -68,7 +68,7 @@ class CarRepositoryMongo(collection: MongoCollection[Car])(implicit ec: Executio
   }
 
   def getCarsById(listId: Seq[String]): Future[Seq[Car]] = {
-    val filter = """{carId:{$in:""" + s"""[$listId]}}"""
-    collection.find(Document(filter)).toFuture()
+    val listOid = listId.map(id => new ObjectId(id))
+    collection.find(Document("_id" -> Document("$in" -> listOid))).toFuture()
   }
 }

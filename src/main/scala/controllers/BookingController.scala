@@ -70,9 +70,19 @@ class BookingController(bookingRepository: BookingRepository, carRepository: Car
           }
         }
       }
-
+    } ~
+    pathPrefix("delete") {
+      delete {
+        parameter('bookingId) { bookingId =>
+          onComplete(bookingRepository.deleteById(bookingId)) {
+            case Success(deletedBooking ) =>
+              complete(StatusCodes.OK, deletedBooking)
+            case Failure(exception) =>
+              complete(StatusCodes.NotFound, exception.getMessage())
+          }
+        }
+      }
     }
-
   }
 
   def tokenUid(token: String): Future[String] = {

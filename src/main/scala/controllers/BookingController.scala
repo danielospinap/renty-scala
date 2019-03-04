@@ -27,11 +27,11 @@ class BookingController(bookingRepository: BookingRepository, carRepository: Car
       post {
         entity(as[bookingRequest]) { params =>
           val token: String = params.token
-          val bookingDate = params.bookingDate
-          val from = params.pickupDate
-          val to = params.deliverDate
-          val pickup = params.pickup
-          val deliverPlace = params.deliverPlace
+          val bookingDate: String = params.bookingDate
+          val from: String = params.pickupDate
+          val to: String = params.deliverDate
+          val pickup: String = params.pickup
+          val deliverPlace: String = params.deliverPlace
           onComplete(tokenUid(token)) {
             case Success(uid: String) =>
               onComplete(carRepository.findById(params.carId)) {

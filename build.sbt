@@ -23,9 +23,11 @@ libraryDependencies ++= Seq(
   "ch.qos.logback" % "logback-classic" % "1.2.3",
   "com.github.firebase4s" %% "firebase4s" % "0.0.4",
   //test libraries
-  "org.mongodb" % "mongo-java-driver" % "3.4.2",
+  "org.mongodb" % "mongo-java-driver" % "3.0.0",
+  "org.mongodb" % "mongodb-driver-core" % "3.0.0",
   "com.github.fakemongo" % "fongo" % "2.1.0" % "test",
   "org.scalatest" % "scalatest_2.12" % "3.0.5" % "test",
+  "de.bwaldvogel" % "mongo-java-server" % "1.13.0" % "test",
   "com.github.simplyscala" %% "scalatest-embedmongo" % "0.2.4" % "test"
 )
 

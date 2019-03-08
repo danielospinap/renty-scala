@@ -1,1 +1,1 @@
-# Renty
+# Renty Scala

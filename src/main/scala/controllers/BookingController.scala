@@ -24,7 +24,6 @@ class BookingController(bookingRepository: BookingRepository, carRepository: Car
   }
 
   override def route: Route = pathPrefix("booking") {
-    pathEndOrSingleSlash {
       post {
         entity(as[bookingRequest]) { params =>
           val token: String = params.token
@@ -41,25 +40,46 @@ class BookingController(bookingRepository: BookingRepository, carRepository: Car
                   val createBooking: CreateBooking =
                     new CreateBooking(userId = uid,car = car,bookingDate = bookingDate,pickUp = pickup,
                       pickupDate = from,deliverPlace = deliverPlace,deliverDate = to, rental = rental)
-                  bookingRepository.save(createBooking)
-                  complete(StatusCodes.OK)
+                  onComplete(bookingRepository.save(createBooking)){
+                    case Success(d) =>
+                      complete(StatusCodes.Created)
+                    case Failure(e) =>
+                      println(e)
+                      complete(StatusCodes.InternalServerError)
+                  }
+                case Failure(exception) =>
+                  println(exception)
+                  complete(StatusCodes.ServerError, exception.getMessage)
               }
             case Failure(exception) =>
               complete(StatusCodes.InternalServerError, exception.getMessage())
           }
         }
+      } ~
+    pathPrefix("myBookings") {
+      get {
+        parameter('token) { token =>
+          onComplete(tokenUid(token)) {
+            case Success(uid) =>
+              onComplete(bookingRepository.findByUserId(uid)) {
+                case Success(bookings) =>
+                  complete(StatusCodes.OK, bookings)
+              }
+            case Failure(exception) =>
+              complete(StatusCodes.NotFound, exception.getMessage())
+          }
+        }
       }
     } ~
-    path("" / ) {
-      parameter('token) { token =>
-        onComplete(tokenUid(token)) {
-          case Success(uid) =>
-            onComplete(bookingRepository.findByUserId(uid)) {
-              case Success(bookings) =>
-                complete(StatusCodes.OK, bookings)
-            }
-          case Failure(exception) =>
-            complete(StatusCodes.NotFound, exception.getMessage())
+    pathPrefix("delete") {
+      delete {
+        parameter('bookingId) { bookingId =>
+          onComplete(bookingRepository.deleteById(bookingId)) {
+            case Success(deletedBooking ) =>
+              complete(StatusCodes.OK, deletedBooking)
+            case Failure(exception) =>
+              complete(StatusCodes.NotFound, exception.getMessage())
+          }
         }
       }
     }

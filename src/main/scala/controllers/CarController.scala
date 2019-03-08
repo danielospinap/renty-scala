@@ -18,6 +18,8 @@ import scala.util.{Failure, Success}
 import java.text.SimpleDateFormat
 import java.util.Date
 
+import org.bson.types.ObjectId
+
 
 class CarController(carRepository: CarRepository, bookingRepository: BookingRepository)(implicit ec: ExecutionContext) extends Router with Directives {
 
@@ -31,17 +33,30 @@ class CarController(carRepository: CarRepository, bookingRepository: BookingRepo
 
           onComplete(carRepository.all()) {
             case Success(cars: Seq[Car]) =>
-
-              val dateFrom = new SimpleDateFormat("dd/MM/yyyy").parse(from)
-              val dateTo = new SimpleDateFormat("dd/MM/yyyy").parse(to)
+              val allCarsId: Seq[String] = cars.map(car => car._id.toHexString)
+              val dateFrom: Date = new SimpleDateFormat("dd/MM/yyyy").parse(from)
+              val dateTo: Date = new SimpleDateFormat("dd/MM/yyyy").parse(to)
               onComplete(bookingRepository.all()) {
                 case Success(bookings: Seq[Booking]) =>
-                  val filteredBookings: Seq[Booking] = bookings.filter(booking => dateFrom.after(booking.deliverDate))
-                  val carIds = filteredBookings.map(booking => booking.car._id.toHexString)
-                  onComplete(carRepository.getCarsById(carIds)) {
+                  val allCarsIdsInBooking: Seq[String] = bookings.map(booking => booking.car._id.toHexString)
+                  println(allCarsIdsInBooking)
+                  //val availibleCarsId = allCarsId.filter(id => !allCarsIDInBooking.exists(idInBooking => id == idInBooking))
+                  val availibleCarsIds: Seq[String] = allCarsId.filter(id => !allCarsIdsInBooking.contains(id))
+                  println(availibleCarsIds)
+
+                  val filteredBookings: Seq[Booking] = bookings.filter(booking => dateFrom.after(booking.deliverDate) || dateTo.before(booking.bookingDate))
+                  println("filteredBookings", filteredBookings)
+                  val filteredCarIds: Seq[String] = filteredBookings.map(booking => booking.car._id.toHexString)
+                  println("filteredCarIds",filteredCarIds)
+                  val carsIdsToSearch = availibleCarsIds ++ filteredCarIds
+                  println(carsIdsToSearch)
+                  onComplete(carRepository.getCarsById(carsIdsToSearch)) {
                     case Success(newCars: Seq[Car]) =>
-                      val filteredCars = newCars.filter(car => car.carType == `type`)
+                      val filteredCars: Seq[Car] = newCars.filter(car => car.carType == `type`)
                       complete(StatusCodes.OK, filteredCars)
+                    case Failure(exception) =>
+                      println(exception)
+                      complete(StatusCodes.InternalServerError)
                   }
               }
             case Failure(exception) =>

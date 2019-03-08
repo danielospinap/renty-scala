@@ -8,7 +8,7 @@ import org.bson.types.ObjectId
 
 case class Booking(
                     _id: ObjectId,
-                    userId: ObjectId,
+                    userId: String,
                     car: Car,
                     bookingDate: Date,
                     pickUp: String,
@@ -37,7 +37,7 @@ object Booking {
     Json.obj(
       "id" -> booking._id.toHexString.asJson,
       "carId" -> booking.car.asJson,
-      "userId" -> booking.userId.toHexString.asJson,
+      "userId" -> booking.userId.asJson,
       "bookingDate" -> booking.bookingDate.toString.asJson,
       "pickUp" -> booking.pickUp.asJson,
       "pickupDate" -> booking.pickupDate.toString.asJson,

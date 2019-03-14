@@ -129,7 +129,7 @@ class BookingRepositoryTest extends FunSuite {
 
     bookingRepository.save(createdBooking) onComplete {
       case Success(_) => {
-        
+
       }
     }
   }

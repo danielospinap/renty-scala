@@ -31,3 +31,4 @@ libraryDependencies ++= Seq(
   "com.github.simplyscala" %% "scalatest-embedmongo" % "0.2.4" % "test"
 )
 
+coverageExcludedPackages := "<empty>;main.scala"
